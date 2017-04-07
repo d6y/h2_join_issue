@@ -1,4 +1,4 @@
-import slick.jdbc.H2Profile.api._
+import slick.driver.H2Driver.api._
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -15,7 +15,7 @@ object Example {
     def name = column[String]("NAME")
     def age = column[Int]("AGE")
     def addressId = column[Int]("ADDRESS_ID")
-    def * = (id,name,age,addressId).mapTo[Person]
+    def * = (id,name,age,addressId) <> (Person.tupled, Person.unapply)
     def address = foreignKey("ADDRESS",addressId,addresses)(_.id)
   }
   lazy val people = TableQuery[People]
@@ -25,7 +25,7 @@ object Example {
     def id = column[Int]("ID", O.PrimaryKey, O.AutoInc)
     def street = column[String]("STREET")
     def city = column[String]("CITY")
-    def * = (id,street,city).mapTo[Address]
+    def * = (id,street,city) <> (Address.tupled, Address.unapply)
   }
   lazy val addresses = TableQuery[Addresses]
 
@@ -34,7 +34,7 @@ object Example {
     def id = column[Int]("ID", O.PrimaryKey, O.AutoInc)
     def personId = column[Int]("PERSON_ID")
     def addressId = column[Int]("ADDRESS_ID")
-    def * = (id, personId, addressId).mapTo[Role]
+    def * = (id, personId, addressId) <> (Role.tupled, Role.unapply)
     def person = foreignKey("PERSON_ROLE_FK",personId,people)(_.id)
     def address = foreignKey("ADDRESS_ROLE_FK",addressId,addresses)(_.id)
   }
@@ -44,7 +44,7 @@ object Example {
   class Duties(tag: Tag) extends Table[Duty](tag, "DUTY") {
     def roleId = column[Int]("ROLE_ID")
     def duty = column[String]("DUTY_NAME")
-    def * = (roleId, duty).mapTo[Duty]
+    def * = (roleId, duty) <> (Duty.tupled, Duty.unapply)
     def role = foreignKey("DUTY_ROLE_FK",roleId,roles)(_.id)
   }
   lazy val duties = TableQuery[Duties]

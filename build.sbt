@@ -1,8 +1,8 @@
-name := "thing"
+name := "h2-explore"
 
-version := "3.2"
+version := "3.1"
 
-scalaVersion := "2.12.1"
+scalaVersion := "2.11.8"
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -12,12 +12,11 @@ scalacOptions ++= Seq(
   "-language:implicitConversions",
   "-language:postfixOps",
   "-Ywarn-dead-code",
-  "-Xlint",
-  "-Xfatal-warnings"
+  "-Xlint"
 )
 
 libraryDependencies ++= Seq(
-  "com.typesafe.slick" %% "slick"           % "3.2.0",
+  "com.typesafe.slick" %% "slick"           % "3.1.1",
   "com.h2database"      % "h2"              % "1.4.185",
   "ch.qos.logback"      % "logback-classic" % "1.1.2"
 )
